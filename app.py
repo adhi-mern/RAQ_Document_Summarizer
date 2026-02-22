@@ -12,22 +12,22 @@ st.title("📄 PDF Intelligence Bot")
 uploaded_file = st.file_uploader("Upload a PDF", type="pdf")
 
 if uploaded_file:
-    # 1. Save and Load PDF
+    # save and load PDF
     with open("temp.pdf", "wb") as f:
         f.write(uploaded_file.getvalue())
     
     loader = PyPDFLoader("temp.pdf")
     docs = loader.load()
 
-    # 2. Chunking (Breaking text into manageable bites)
+    # break text into manageable bites
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     splits = text_splitter.split_documents(docs)
 
-    # 3. Embeddings & Vector Store
+    # Embeddings & Vector Store
     embeddings = OllamaEmbeddings(model="llama3")
     vectorstore = FAISS.from_documents(documents=splits, embedding=embeddings)
 
-    # 4. RAG Chain Setup
+    # RAG Chain Setup
     llm = ChatOllama(model="llama3")
     prompt = ChatPromptTemplate.from_template("""
     Answer the following question based only on the provided context:
