@@ -1,2 +1,15 @@
 ## requirements
-''' pip install langchain langchain-community langchain-core '''
+create a virtual environment:
+```bash
+python -m venv venv
+
+.\venv\Scripts\activate
+```
+Then run this in terminal:
+  ```bash
+   pip install langchain langchain-community langchain-ollama pypdf faiss-cpu streamlit
+   ```
+Install Ollama, then run: 
+ ```bash
+   ollama pull llama3
+   ```
