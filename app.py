@@ -6,6 +6,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_classic.chains import create_retrieval_chain
+from langchain_groq import ChatGroq
 
 st.title("📄 PDF Intelligence Bot")
 
@@ -28,7 +29,12 @@ if uploaded_file:
     vectorstore = FAISS.from_documents(documents=splits, embedding=embeddings)
 
     # RAG Chain Setup
-    llm = ChatOllama(model="llama3")
+    # llm = ChatOllama(model="llama3")
+    llm = ChatGroq(
+    temperature=0, 
+    groq_api_key="your_api_key_here", 
+    model_name="llama3-8b-8192"
+)
     prompt = ChatPromptTemplate.from_template("""
     Answer the following question based only on the provided context:
     <context>
@@ -40,7 +46,7 @@ if uploaded_file:
     retriever = vectorstore.as_retriever()
     retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
-    # 5. User Input
+    # User Input
     user_input = st.text_input("Ask a question about your document:")
     if user_input:
         response = retrieval_chain.invoke({"input": user_input})
