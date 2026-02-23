@@ -7,7 +7,7 @@ python -m venv venv
 ```
 Then run this in terminal:
   ```bash
-   pip install langchain langchain-community langchain-ollama pypdf faiss-cpu streamlit
+   pip install langchain langchain-community langchain-ollama pypdf faiss-cpu streamlit langchain-huggingface langchain-groq
    ```
 Install Ollama, then run: 
  ```bash

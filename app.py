@@ -1,12 +1,12 @@
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_community.vectorstores import FAISS
 from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_classic.chains import create_retrieval_chain
 from langchain_groq import ChatGroq
+from langchain_huggingface import HuggingFaceEmbeddings
 
 st.title("📄 PDF Intelligence Bot")
 
@@ -25,15 +25,15 @@ if uploaded_file:
     splits = text_splitter.split_documents(docs)
 
     # Embeddings & Vector Store
-    embeddings = OllamaEmbeddings(model="llama3")
+    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     vectorstore = FAISS.from_documents(documents=splits, embedding=embeddings)
 
     # RAG Chain Setup
     # llm = ChatOllama(model="llama3")
     llm = ChatGroq(
     temperature=0, 
-    groq_api_key="your_api_key_here", 
-    model_name="llama3-8b-8192"
+    groq_api_key="your-api-key", 
+    model_name="llama-3.1-8b-instant"
 )
     prompt = ChatPromptTemplate.from_template("""
     Answer the following question based only on the provided context:
